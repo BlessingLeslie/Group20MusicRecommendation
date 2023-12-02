@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Capture Webcam Image</title>
+</head>
+<body>
+
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Capture</button>
+<canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+<p id="emotion"></p>
+<audio id="musicPlayer" controls style="display:none;"></audio> <!-- Audio player element -->
+
+<script>
+// Get access to the camera
+if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        var video = document.getElementById('video');
+        video.srcObject = stream;
+        video.play();
+    });
+}
+
+// Elements for taking the snapshot
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var video = document.getElementById('video');
+
+// Trigger photo take
+document.getElementById("snap").addEventListener("click", function() {
+    context.drawImage(video, 0, 0, 640, 480);
+    
+    // Convert the canvas to a data URL
+    var imageDataURL = canvas.toDataURL('image/png');
+    
+    // Send this image data to the server
+    fetch('/predict-emotion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({image_data: imageDataURL})
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display the predicted emotion
+        document.getElementById("emotion").innerText = "Predicted Emotion: " + data.emotion;
+
+        // Get the music player element
+        var musicPlayer = document.getElementById('musicPlayer');
+
+        // Check if a track URL was received and update the music player
+        if(data.track_url && data.track_url !== 'No song found.') {
+            musicPlayer.src = data.track_url;  // Set the source of the music player to the received track URL
+            musicPlayer.style.display = '';  // Make the music player visible
+            musicPlayer.play();  // Start playing the music
+        } else {
+            musicPlayer.style.display = 'none';  // Hide the music player if no song was found
+            alert(data.track_url);  // Alert the user that no song was found
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+</script>
+
+</body>
+</html>
