@@ -1,29 +1,186 @@
-DROP DATABASE IF EXISTS music_emotions_library_db;
-CREATE DATABASE music_emotions_library_db;
-USE music_emotions_library_db;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotion Detection and Music Recommendation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    #body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #F5F5F5;
+    text-align: center;
+  }
+  #video {
+    margin-top: 20px;
+  }
+  #snap {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+  #emotion, #audioPlayer, #downloadButton {
+    margin-top: 20px;
+  }
+  .container {
+    margin: 20px;
+    padding: 20px;
+  }
+  .sidebar {
+    text-align: left;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0px 5px rgba(0,0,0,0.1);
+  }
+  .content {
+    margin-left: 320px;
+    padding: 20px;
+  }
+  .emotion-message {
+    color: #555;
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
+  .happy {
+    color: #2ecc71;
+  }
+  .sad {
+    color: #3498db;
+  }
+  .surprise {
+    color: #9b59b6;
+  }
+  .angry {
+  color: #E74C3C;
+    }
+    .fear {
+    color: #F1C40F;
+    }
+    .disgust {
+    color: #95A5A6;
+    }
+    .neutral {
+    color: #7F8C8D;
+    }
 
--- Drop existing tables if they exist
-DROP TABLE IF EXISTS tracks;
-DROP TABLE IF EXISTS emotions;
-DROP TABLE IF EXISTS track_emotions;
+  #downloadButton {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
 
--- Create the 'tracks' table
-CREATE TABLE tracks (
-    track_id INT AUTO_INCREMENT PRIMARY KEY,
-    file_path VARCHAR(255)
-);
+<div class="sidebar">
+  <h3>Welcome!</h3>
+  <p>Please capture your image, and let's recommend a song that matches your emotion!</p>
+  <input type="text" id="nameInput" placeholder="Enter your name here">
 
--- Create the 'emotions' table
-CREATE TABLE emotions (
-    emotion_id INT AUTO_INCREMENT PRIMARY KEY,
-    emotion_name VARCHAR(255) UNIQUE
-);
+  <h3>Built with &#10084;&#65039; by Leslie & Blessing<h3>
+</div>
 
--- Create the 'track_emotions' join table
-CREATE TABLE track_emotions (
-    track_id INT,
-    emotion_id INT,
-    PRIMARY KEY (track_id, emotion_id),
-    FOREIGN KEY (track_id) REFERENCES tracks(track_id),
-    FOREIGN KEY (emotion_id) REFERENCES emotions(emotion_id)
-);
+
+<div class="content">
+  <h1>Emotion Detection and Music Recommendation</h1>
+  <h3>Capture Your Face</h3>
+  <video id="video" width="640" height="480" autoplay></video>
+  <button id="snap">Capture Image</button>
+  <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+  <p id="emotion" class="emotion-message"></p>
+  <audio id="audioPlayer" controls style="display:none;"></audio>
+  <button id="downloadButton" style="display:none;">Download Song</button>
+</div>
+
+
+<script>
+// Get access to the camera
+if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+        var video = document.getElementById('video');
+        video.srcObject = stream;
+        video.play();
+    });
+}
+
+// Elements for taking the snapshot
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');
+var video = document.getElementById('video');
+
+// Trigger photo take
+document.getElementById("snap").addEventListener("click", function() {
+    context.drawImage(video, 0, 0, 640, 480);
+    
+    // Convert the canvas to a data URL
+    var imageDataURL = canvas.toDataURL('image/png');
+    
+    // Send this image data to the server
+    fetch('/predict-emotion', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({image_data: imageDataURL})
+    })
+    .then(response => response.json())
+    .then(data => {
+        var name = document.getElementById("nameInput").value || "there";
+        var emotionText = "Hello " + name + ", Let's Analyze Your Emotion";
+        var message = "We sense that you are feeling: " + data.emotion;
+        var motivationalText = getMotivationalText(data.emotion);
+        
+        // Display the predicted emotion and motivational text
+        document.getElementById("emotion").innerHTML = emotionText + "<br>" + message + "<br>" + motivationalText;
+        
+        // Set up and display the audio player
+        var audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = data.track_url;
+        audioPlayer.style.display = 'block';
+        audioPlayer.play();
+
+        // Set up and display the download button
+        var downloadButton = document.getElementById('downloadButton');
+        downloadButton.style.display = 'block';
+        downloadButton.onclick = function() {
+            window.location.href = data.track_url; // Direct download link
+        };
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+function getMotivationalText(emotion) {
+    var messages = {
+        "Happy": "<span class='happy'>Keep on being happy! 😊</span>",
+        "Sad": "<span class='sad'>It's okay to be sad. Here's a song to cheer you up! 😌</span>",
+        "Surprise": "<span class='surprise'>Surprise! Hope this song makes your day even better. 😮</span>",
+        "Angry": "<span class='angry'>Feeling angry? Take a deep breath. This song might cool you down. 😠</span>",
+        "Fear": "<span class='fear'>Feeling scared? Be brave. Here's a song to give you strength. 😨</span>",
+        "Disgust": "<span class='disgust'>Not everything is as bad as it seems. Let this tune distract you. 😒</span>",
+        "Neutral": "<span class='neutral'>Feeling neutral? Let's add a little spice with this track. 😐</span>"
+        // Add more emotions and messages as needed
+    };
+    return messages[emotion] || "<span>Hope you enjoy the music!</span>";
+}
+</script>
+
+</body>
+</html>
