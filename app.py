@@ -8,14 +8,6 @@ import base64
 
 app = Flask(__name__)
 
-# Configure MySQL connection
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Maffo1234*'  # replace with your MySQL root user's password
-app.config['MYSQL_DB'] = 'music_emotions_library_db'  # replace with the name of your actual database
-mysql = MySQL(app)
-
-
 model_path = model_path = "C:\\Users\\Lucie Konlack\\Downloads\\RECOFMUSIC\\best_model.h5"
 
 model = tf.keras.models.load_model(model_path)
