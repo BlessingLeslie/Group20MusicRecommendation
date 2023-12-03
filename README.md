@@ -91,6 +91,8 @@ We celebrate the contributions of the Emotify Music Project for providing the da
 
 **Experience the harmonious blend of emotion and music with our live application, where each recommendation is a note in the melody of your mood.**
 
+LINK TO VIDEO DEMO: https://youtu.be/niLlEMVtJsk
+
 GoogleColablinks:
 Music_Emotion_model: https://colab.research.google.com/drive/1Aq7UT28LHaqOQP23Jxv3i5tHIpXhRf9R#scrollTo=dqKQkjB6n1wd
 Facial_Emotion_model: https://colab.research.google.com/drive/1G7EYA4HuR6fe0pl7CgaIJ4FaeXzQSsyY#scrollTo=N_Y8hoIzjPwd
