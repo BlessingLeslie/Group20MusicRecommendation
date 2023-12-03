@@ -32,6 +32,7 @@ Copy code
 
 Core Features:
 
+
 Facial Emotion Detection: Utilizing real-time video data, the pre-trained TensorFlow model detects the user's current emotional state with precision.
 Emotion-Based Music Selection: A sophisticated algorithm correlates the detected emotion with a database of songs, each tagged with an emotional signature.
 Interactive Interface: Designed for simplicity and ease of use, the interface invites users to capture their emotion and receive music recommendations instantly.
@@ -40,6 +41,7 @@ Accessibility and Deployment: Hosted on Heroku, the application is universally a
 
 
 Technologies Employed:
+
 This application is a confluence of various technologies, each chosen for its efficacy and compatibility with the overall system:
 
 Frontend: HTML5, CSS3, JavaScript
