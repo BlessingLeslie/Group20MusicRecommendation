@@ -8,7 +8,7 @@ import base64
 
 app = Flask(__name__)
 
-model_path = model_path = "C:\\Users\\Lucie Konlack\\Downloads\\RECOFMUSIC\\best_model.h5"
+model_path ='best_model.h5'
 
 model = tf.keras.models.load_model(model_path)
 
