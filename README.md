@@ -85,13 +85,18 @@ The Creators:
 -
 -Leslie Konlack  
 -Eileen Blessing 
+-
 -Group20FinalAIPROJECT
 -
-We celebrate the contributions of the Emotify Music Project for providing the dataset that informed our music classification model, a testament to the collaborative nature of the scientific community.
+We celebrate the contributions of the fer2013 dataset for emotion classification, and the Emotify Music Project for providing the dataset that informed our music classification model, a testament to the collaborative nature of the scientific community.
 
 **Experience the harmonious blend of emotion and music with our live application, where each recommendation is a note in the melody of your mood.**
 
-LINK TO VIDEO DEMO: https://youtu.be/niLlEMVtJsk
+LINK TO VIDEO DEMO: 
+https://youtube.com/watch?v=Spht80yF1eo&feature=shared
+
+
+
 
 GoogleColablinks:
 Music_Emotion_model: https://colab.research.google.com/drive/1Aq7UT28LHaqOQP23Jxv3i5tHIpXhRf9R#scrollTo=dqKQkjB6n1wd
