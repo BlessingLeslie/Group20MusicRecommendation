@@ -5,7 +5,6 @@ In our quest to blend the art of music with the subtleties of human emotions, we
 
 
 About the Project
-
 Our application operates at the intersection of technology and empathy. It employs a sophisticated facial emotion recognition model to interpret a user's expressions in real-time. Leveraging the depth of TensorFlow and Keras, the model captures the nuances of human emotion, which in turn, guides the music recommendation engine to suggest tracks that reflect the user's mood.
 
 
@@ -13,7 +12,6 @@ At the heart of the project is a database that meticulously categorizes music tr
 
 
 Repository Composition
-
 Here's how the repository is structured, with each file playing a pivotal role in the application's functionality:
 
 graphql
@@ -38,7 +36,6 @@ Accessibility and Deployment: Hosted on Heroku, the application is universally a
 
 
 Technologies Employed
-
 This application is a confluence of various technologies, each chosen for its efficacy and compatibility with the overall system:
 
 Frontend: HTML5, CSS3, JavaScript
@@ -51,28 +48,23 @@ Cloud Hosting and Deployment: Heroku, GitHub
 Detailed Usage Guide
 
 Interaction Flow
-
 The user is welcomed by the application and prompted to allow webcam access.
 Once the "Capture Image" button is clicked, the model evaluates the user's facial expression.
 The detected emotion triggers a database query, fetching a song that embodies the user's emotional state.
 The user is presented with the song through an embedded music player with options to play and download.
 
 Behind the Scenes
-
 The facial recognition model processes incoming visual data, translating pixels into emotions.
 The music classification model, trained on a dataset from the Emotify Music Project, interprets the emotional content of songs, which have been converted from file paths to accessible URLs.
 The Flask backend orchestrates the interaction between the frontend, models, and database, ensuring a smooth and responsive user experience.
 
 Deployment and Live Access
-
 The system is deployed on Heroku, available for public access here: [MusicRecommendationApp](https://musicrecommendationapp-328d0564fd7b.herokuapp.com/). This cloud platform was chosen for its robustness and ease of use, allowing us to focus on user experience and system reliability.
 
 How to Contribute
-
 Your contributions and suggestions are heartily welcomed. If you'd like to contribute to the project, please fork the repository and use a feature branch. Pull requests are warmly welcomed.
 
 Licensing
-
 This project is released under the Ashesi University Introduction to artificial intelligence course 
 
 The Creators
