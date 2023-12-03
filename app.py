@@ -5,7 +5,6 @@ import tensorflow as tf
 from PIL import Image
 import io
 import base64
-import mysql
 
 app = Flask(__name__)
 
