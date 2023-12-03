@@ -7,11 +7,14 @@ import io
 import base64
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Maffo1234*'  # replace with your MySQL root user's password
-app.config['MYSQL_DB'] = 'music_emotions_library_db'  # replace with the name of your actual database
+
+app.config['MYSQL_HOST'] = 'grp6m5lz95d9exiz.cbetxkdyhwsb.us-east-1.rds.amazonaws.com'
+app.config['MYSQL_USER'] = 'yb1kzgj064vmir99'
+app.config['MYSQL_PASSWORD'] = 'u4aorhbaziyr6i1b'
+app.config['MYSQL_DB'] = 'm2p8uekpnqas4rst'
+
 mysql = MySQL(app)
+
 
 model_path ='best_model.h5'
 
