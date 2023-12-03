@@ -44,7 +44,11 @@ def predict_emotion():
 
     # Make sure you're getting the prediction
     print(f"Predicted emotion: {predicted_emotion}")
-
+    app.config['MYSQL_HOST'] = 'localhost'
+    app.config['MYSQL_USER'] = 'root'
+    app.config['MYSQL_PASSWORD'] = 'Maffo1234*'  # replace with your MySQL root user's password
+    app.config['MYSQL_DB'] = 'music_emotions_library_db'  # replace with the name of your actual database
+    mysql = MySQL(app)
     # Query the music database for a random URL of a song matching the predicted emotion
     cursor = mysql.connection.cursor()
     query = """
